@@ -1,0 +1,52 @@
+
+
+class UrbanRoutesPage:
+    # Usamos XPath, CSS y ClassName para los selectores
+    ADDRESS_INPUT = (By.XPATH, "//input[@id='address-input']")  # XPath
+    TARIFA_COMFORT = (By.CSS_SELECTOR, "button[data-type='comfort']")  # CSS Selector
+    PHONE_INPUT = (By.CLASS_NAME, "phone-input")  # ClassName
+    CREDIT_CARD_INPUT = (By.ID, "card-number")  # ID
+    EXPIRATION_INPUT = (By.CLASS_NAME, "expiration-input")  # ClassName
+    CVV_INPUT = (By.XPATH, "//input[@id='cvv']")  # XPath
+    LINK_CARD_BUTTON = (By.CSS_SELECTOR, ".button-link-card")  # CSS Selector
+    MESSAGE_INPUT = (By.CLASS_NAME, "message-input")  # ClassName
+    BLANKET_BUTTON = (By.XPATH, "//button[contains(text(),'Blanket')]")  # XPath
+    TISSUES_BUTTON = (By.CSS_SELECTOR, "button.tissues-btn")  # CSS Selector
+    ICE_CREAM_BUTTON = (By.XPATH, "//button[contains(text(),'Ice Cream')]")  # XPath
+    SEARCH_MODAL = (By.ID, "search-modal")  # ID
+    DRIVER_INFO = (By.CLASS_NAME, "driver-info")  # ClassName
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    def configure_address(self, address):
+        self.driver.find_element(*self.ADDRESS_INPUT).send_keys(address)
+
+    def select_tarifa_comfort(self):
+        self.driver.find_element(*self.TARIFA_COMFORT).click()
+
+    def enter_phone_number(self, phone_number):
+        self.driver.find_element(*self.PHONE_INPUT).send_keys(phone_number)
+
+    def add_credit_card(self, card_number, expiration, cvv):
+        self.driver.find_element(*self.CREDIT_CARD_INPUT).send_keys(card_number)
+        self.driver.find_element(*self.EXPIRATION_INPUT).send_keys(expiration)
+        self.driver.find_element(*self.CVV_INPUT).send_keys(cvv)
+        self.driver.find_element(*self.CVV_INPUT).send_keys(Keys.TAB)
+
+    def write_message(self, message):
+        self.driver.find_element(*self.MESSAGE_INPUT).send_keys(message)
+
+    def request_blanket_and_tissues(self):
+        self.driver.find_element(*self.BLANKET_BUTTON).click()
+        self.driver.find_element(*self.TISSUES_BUTTON).click()
+
+    def request_ice_cream(self, quantity):
+        for _ in range(quantity):
+            self.driver.find_element(*self.ICE_CREAM_BUTTON).click()
+
+    def is_searching_for_taxi_modal_displayed(self):
+        return self.driver.find_element(*self.SEARCH_MODAL).is_displayed()
+
+    def is_driver_info_displayed(self):
+        return self.driver.find_element(*self.DRIVER_INFO).is_displayed()
